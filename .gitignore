@@ -45,3 +45,9 @@ next-env.d.ts
 *.docx
 *.xlsx
 *.csv
+
+# ai docs & plans
+CLAUDE.md
+gemini.md
+blueprint_print.md
+docs/plans/
