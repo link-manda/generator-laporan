@@ -22,10 +22,10 @@ const renderParagraphs = (text: string, isIndent: boolean = false) => {
       return <div key={idx} className="h-5 w-full" />;
     }
     return (
-      <p 
-        key={idx} 
-        className={isIndent ? "indent-8" : (idx > 0 ? "mt-1" : "")} 
-        dangerouslySetInnerHTML={renderRichText(paragraph)} 
+      <p
+        key={idx}
+        className={isIndent ? "indent-8" : (idx > 0 ? "mt-1" : "")}
+        dangerouslySetInnerHTML={renderRichText(paragraph)}
       />
     );
   });
@@ -34,19 +34,19 @@ const renderParagraphs = (text: string, isIndent: boolean = false) => {
 export default function ReportPreview({ report }: { report: ReportState }) {
   return (
     <div id="report-preview-content" className="flex flex-col gap-8 print:gap-0">
-      
+
       {/* COVER PAGE */}
       <div className="w-[210mm] min-h-[297mm] mx-auto bg-white shadow-lg print:shadow-none print:w-auto print:min-h-0 print:h-[calc(297mm-5.08cm)] print:mx-0 p-[2.54cm] print:p-0 text-black font-sans flex flex-col justify-between break-after-page" style={{ pageBreakAfter: 'always', pageBreakInside: 'avoid' }}>
-        
+
         <div className="w-full text-center mt-8">
-          <h1 className="text-2xl font-bold mb-6">
+          <h1 className="text-xl font-bold mb-6">
             Laporan Periodik {report.metadata.bulanTahun}
           </h1>
           <h2 className="text-xl font-bold">
             Laporan Pelaksanaan Kegiatan Sebagai {report.metadata.posisi}
           </h2>
         </div>
-        
+
         <div className="flex-1 flex flex-col items-center justify-center w-full my-8">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVJhbrB5vVGVDnX0BDtsMByzrf05DyhXUOMe2bOeEUFQ&s=10" alt="Logo Instansi" className="w-[280px] h-[280px] object-contain" />
         </div>
@@ -67,22 +67,22 @@ export default function ReportPreview({ report }: { report: ReportState }) {
       </div>
 
       {/* CONTENT PAGES */}
-      <div className="w-[210mm] min-h-[297mm] mx-auto bg-white shadow-lg print:shadow-none print:w-full print:min-h-0 print:mx-0 p-[2.54cm] print:p-0 text-black font-sans leading-relaxed">
-        
+      <div className="w-[210mm] min-h-[297mm] mx-auto bg-white shadow-lg print:shadow-none print:w-full print:min-h-0 print:mx-0 p-[2.54cm] print:p-0 text-black font-sans leading-relaxed a4-boundary print:bg-none">
+
         {/* HEADER KOP SURAT */}
         <div className="flex items-center justify-center mb-6 border-b-[6px] border-black pb-2 print:border-b-[6px] print:border-black gap-2">
           <div className="w-[110px] h-[110px] shrink-0 flex items-center justify-center">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVJhbrB5vVGVDnX0BDtsMByzrf05DyhXUOMe2bOeEUFQ&s=10" alt="Logo Instansi" className="w-full h-full object-contain" />
           </div>
-          <div className="text-center flex-1 leading-tight text-[11pt]">
-            <h1 className="font-bold uppercase">PEMERINTAH {report.metadata.daerah}</h1>
-            <h2 className="font-bold uppercase">{report.metadata.instansi}</h2>
-            <div className="leading-tight">
+          <div className="text-center flex-1 leading-none text-[11pt]">
+            <h1 className="font-bold uppercase text-[11pt]">PEMERINTAH {report.metadata.daerah}</h1>
+            <h2 className="font-bold uppercase text-[11pt]">{report.metadata.instansi}</h2>
+            <div className="leading-none mt-1 text-[11pt]">
               {report.metadata.alamatInstansi.split('\n').map((line, idx) => {
                 if (idx === 0) {
-                  return <div key={idx} className="font-bold uppercase">{line}</div>;
+                  return <div key={idx} className="font-bold uppercase text-[11pt]">{line}</div>;
                 }
-                
+
                 if (line.includes('www.')) {
                   const parts = line.split(/(www\.[^\s]+)/);
                   return (
@@ -91,7 +91,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
                     </div>
                   );
                 }
-                
+
                 return <div key={idx}>{line}</div>;
               })}
             </div>
@@ -123,7 +123,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
                     {renderParagraphs(section.description, true)}
                   </div>
                 )}
-                
+
                 <div className="space-y-4 pl-2">
                   {section.items.map((item, index) => (
                     <div key={item.id} className="flex flex-col mb-4 break-inside-avoid">
@@ -135,9 +135,9 @@ export default function ReportPreview({ report }: { report: ReportState }) {
                       </div>
                       {item.image && (
                         <div className="mt-4 mb-2 ml-8 flex justify-center">
-                          <img 
-                            src={item.image} 
-                            alt="Lampiran" 
+                          <img
+                            src={item.image}
+                            alt="Lampiran"
                             className="max-w-full print:max-w-[80%]"
                             style={{ maxHeight: '350px', objectFit: 'contain' }}
                           />
@@ -156,21 +156,21 @@ export default function ReportPreview({ report }: { report: ReportState }) {
           <div className="text-center mb-8">
             <p>{report.metadata.tempatTanggal}</p>
           </div>
-          
+
           <div className="flex justify-between px-8">
             <div className="text-center w-64 flex flex-col items-center">
               <p>Disusun Oleh,</p>
               <p className="mb-24">{report.metadata.penyusunJabatan}</p>
-              
+
               <div className="inline-block">
                 <p className="font-bold underline leading-tight m-0 p-0 whitespace-nowrap">{report.metadata.penyusunNama}</p>
               </div>
             </div>
-            
+
             <div className="text-center w-64 flex flex-col items-center">
               <p>Disetujui Oleh,</p>
               <p className="mb-24">{report.metadata.penyetujuJabatan}</p>
-              
+
               <div className="inline-block">
                 <p className="font-bold underline leading-tight m-0 p-0 whitespace-nowrap">{report.metadata.penyetujuNama}</p>
                 <p className="leading-tight m-0 p-0 whitespace-nowrap">{report.metadata.penyetujuNip}</p>
@@ -178,7 +178,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   );

@@ -101,8 +101,8 @@ export default function ReportBuilder() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full min-h-screen bg-neutral-100">
-      <div className="lg:w-1/3 border-r bg-white p-6 overflow-y-auto no-print">
+    <div className="flex flex-col lg:flex-row w-full h-screen overflow-hidden bg-neutral-100 print:h-auto print:block print:overflow-visible">
+      <div className="lg:w-1/3 h-1/2 lg:h-full border-r bg-white p-6 overflow-y-auto no-print">
         <ReportEditor 
           report={report} 
           updateMetadata={updateMetadata} 
@@ -115,7 +115,7 @@ export default function ReportBuilder() {
           removeSectionItem={removeSectionItem}
         />
       </div>
-      <div className="lg:w-2/3 p-4 lg:p-8 overflow-y-auto bg-neutral-200 print:w-full print:bg-white print:p-0 print:overflow-visible">
+      <div className="lg:w-2/3 h-1/2 lg:h-full p-4 lg:p-8 overflow-y-auto bg-neutral-200 print:w-full print:bg-white print:p-0 print:overflow-visible">
         <ReportPreview report={report} />
       </div>
     </div>
