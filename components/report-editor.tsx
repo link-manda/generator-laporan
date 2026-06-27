@@ -4,6 +4,14 @@ import { ChangeEvent, useRef } from "react";
 import { ReportState, ReportItem, createEmptyItem, getPointLabel } from "@/lib/report";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { 
+  IconId, 
+  IconSignature, 
+  IconQuote, 
+  IconListCheck, 
+  IconPlus, 
+  IconTrash 
+} from "@tabler/icons-react";
 
 interface ReportEditorProps {
   report: ReportState;
@@ -43,7 +51,10 @@ export default function ReportEditor({
       </div>
 
       <div className="space-y-4 border p-4 rounded-lg bg-neutral-50">
-        <h3 className="font-semibold text-lg">Informasi Metadata</h3>
+        <h3 className="font-semibold text-lg flex items-center gap-2 text-blue-700">
+          <IconId size={20} />
+          Informasi Metadata
+        </h3>
         
         <div className="space-y-2">
           <label className="text-sm font-medium">Bulan / Tahun</label>
@@ -115,7 +126,10 @@ export default function ReportEditor({
         </div>
 
         <div className="border-t pt-4 mt-4 space-y-4">
-          <h4 className="font-medium text-md">Tanda Tangan</h4>
+          <h4 className="font-medium text-md flex items-center gap-2 text-blue-700">
+            <IconSignature size={18} />
+            Tanda Tangan
+          </h4>
           <div className="space-y-2">
             <label className="text-sm font-medium">Tempat, Tanggal Laporan</label>
             <input 
@@ -169,7 +183,10 @@ export default function ReportEditor({
       </div>
 
       <div className="space-y-2 border p-4 rounded-lg bg-neutral-50">
-        <h3 className="font-semibold text-lg">Kata Pengantar</h3>
+        <h3 className="font-semibold text-lg flex items-center gap-2 text-blue-700">
+          <IconQuote size={20} />
+          Kata Pengantar
+        </h3>
         <textarea 
           className="w-full border rounded-md p-2 text-sm min-h-[100px]" 
           value={report.intro}
@@ -179,13 +196,16 @@ export default function ReportEditor({
 
       {report.sections.map((section) => (
         <div key={section.key} className="space-y-4 border p-4 rounded-lg bg-neutral-50">
-          <input 
-            type="text"
-            className="font-semibold text-lg bg-transparent border-b border-transparent hover:border-neutral-300 focus:border-blue-500 focus:outline-none w-full pb-1 transition-colors"
-            value={section.title}
-            onChange={(e) => updateSectionTitle(section.key, e.target.value)}
-            placeholder="Judul Bagian..."
-          />
+          <div className="flex items-center gap-2 text-blue-700">
+            <IconListCheck size={20} />
+            <input 
+              type="text"
+              className="font-semibold text-lg bg-transparent border-b border-transparent hover:border-neutral-300 focus:border-blue-500 focus:outline-none w-full pb-1 transition-colors text-black"
+              value={section.title}
+              onChange={(e) => updateSectionTitle(section.key, e.target.value)}
+              placeholder="Judul Bagian..."
+            />
+          </div>
           <textarea
             className="w-full bg-transparent border-b border-transparent hover:border-neutral-300 focus:border-blue-500 focus:outline-none min-h-[40px] text-sm resize-y"
             value={section.description || ""}
@@ -248,7 +268,7 @@ export default function ReportEditor({
                     onClick={() => removeSectionItem(section.key, item.id)}
                     title="Hapus Poin"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    <IconTrash size={16} />
                   </button>
                 </div>
               ))}
@@ -257,10 +277,11 @@ export default function ReportEditor({
 
           <Button 
             variant="outline" 
-            className="w-full mt-4 border-dashed"
+            className="w-full mt-4 border-dashed flex items-center gap-2"
             onClick={() => addSectionItem(section.key, createEmptyItem())}
           >
-            + Tambah Poin Baru
+            <IconPlus size={16} />
+            Tambah Poin Baru
           </Button>
         </div>
       ))}
