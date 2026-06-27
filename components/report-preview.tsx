@@ -11,6 +11,26 @@ const renderRichText = (text: string) => {
   return { __html: html };
 };
 
+const renderParagraphs = (text: string, isIndent: boolean = false) => {
+  if (!text) return null;
+  return text.split('\n').map((paragraph, idx) => {
+    const trimmed = paragraph.trim();
+    if (trimmed === '---') {
+      return <div key={idx} className="break-after-page w-full h-2" style={{ pageBreakAfter: 'always' }} />;
+    }
+    if (trimmed === '') {
+      return <div key={idx} className="h-5 w-full" />;
+    }
+    return (
+      <p 
+        key={idx} 
+        className={isIndent ? "indent-8" : (idx > 0 ? "mt-1" : "")} 
+        dangerouslySetInnerHTML={renderRichText(paragraph)} 
+      />
+    );
+  });
+};
+
 export default function ReportPreview({ report }: { report: ReportState }) {
   return (
     <div id="report-preview-content" className="flex flex-col gap-8 print:gap-0">
@@ -82,11 +102,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
         <div className="mb-6 text-justify text-[11pt]">
           <span className="font-bold block mb-2">A. Capaian Kinerja</span>
           <div className="space-y-1">
-            {report.intro.split('\n').map((paragraph, idx) => (
-              paragraph.trim() !== '' ? (
-                <p key={idx} className="indent-8" dangerouslySetInnerHTML={renderRichText(paragraph)} />
-              ) : null
-            ))}
+            {renderParagraphs(report.intro, true)}
           </div>
         </div>
 
@@ -104,11 +120,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
 
                 {section.description && (
                   <div className="mb-4 pl-2 text-justify space-y-1">
-                    {section.description.split('\n').map((paragraph, idx) => (
-                      paragraph.trim() !== '' ? (
-                        <p key={idx} className="indent-8" dangerouslySetInnerHTML={renderRichText(paragraph)} />
-                      ) : null
-                    ))}
+                    {renderParagraphs(section.description, true)}
                   </div>
                 )}
                 
@@ -118,11 +130,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
                       <div className="flex gap-2">
                         <span className="font-medium shrink-0 w-6">{getPointLabel(index)}</span>
                         <div className="flex-1 text-justify">
-                          {item.text.split('\n').map((paragraph, pIdx) => (
-                            paragraph.trim() !== '' ? (
-                              <p key={pIdx} className={pIdx > 0 ? "mt-1" : ""} dangerouslySetInnerHTML={renderRichText(paragraph)} />
-                            ) : null
-                          ))}
+                          {renderParagraphs(item.text, false)}
                         </div>
                       </div>
                       {item.image && (
