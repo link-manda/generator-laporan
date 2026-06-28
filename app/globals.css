@@ -158,14 +158,3 @@
     box-shadow: none !important;
   }
 }
-
-.a4-boundary {
-  /* Draws a 2px visual line every 297mm exactly, matching A4 height */
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent calc(297mm - 2px),
-    #cbd5e1 calc(297mm - 2px),
-    #cbd5e1 297mm
-  );
-}

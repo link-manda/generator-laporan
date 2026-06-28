@@ -59,7 +59,7 @@ export const SEEDED_REPORT: ReportState = {
     instansi: "Dinas Komunikasi dan Informatika",
     daerah: "Kabupaten Badung",
     tahun: "2026",
-    alamatInstansi: "PUSAT PEMERINTAHAN MANGUPRAJA MANDALA\nJln Raya Sempidi, Mengwi – Kabupaten Badung (80351)\nTelp. (0361) 419888 Fax (0361) 419888\nWebsite : www.diskominfo.badungkab.go.id",
+    alamatInstansi: "PEMERINTAH KABUPATEN BADUNG\nDINAS KOMUNIKASI DAN INFORMATIKA\nPUSAT PEMERINTAHAN MANGUPRAJA MANDALA\nJln Raya Sempidi, Mengwi – Kabupaten Badung (80351)\nTelp. (0361) 419888 Fax (0361) 419888\nWebsite : www.diskominfo.badungkab.go.id",
     tempatTanggal: "Mangupura, 2 Juni 2026",
     penyusunJabatan: "Tenaga Ahli",
     penyusunNama: "I Made Brahmanda Setyadi, S.Kom",
@@ -101,7 +101,7 @@ export const SEEDED_REPORT: ReportState = {
         },
         {
           id: "item-3-2",
-          text: "**Optimasi Dependent Filter Wilayah Hierarkis**. Penyempurnaan mekanisme pencarian (filtering) pada menu \"Semua Permohonan\" bagi role Administrator, Kesra, Monitor, dan Inspektorat. Filter wilayah kini menggunakan metode hierarki (Kabupaten > Kecamatan > Desa). Pemilihan sebuah wilayah akan membatasi (restrict) opsi pada dropdown di bawahnya (misal: memilih Kecamatan Abiansemal hanya akan memunculkan Desa-desa di dalam Abiansemal). Mekanisme ini bekerja secara dinamis memuat ulang (reload) opsi dan me-reset child filter secara otomatis, sehingga mencegah terjadinya kesalahan kombinasi pencarian tanpa memodifikasi business logic dari vendor Backpack.\n---",
+          text: "**Optimasi Dependent Filter Wilayah Hierarkis**. Penyempurnaan mekanisme pencarian (filtering) pada menu \"Semua Permohonan\" bagi role Administrator, Kesra, Monitor, dan Inspektorat. Filter wilayah kini menggunakan metode hierarki (Kabupaten > Kecamatan > Desa). Pemilihan sebuah wilayah akan membatasi (restrict) opsi pada dropdown di bawahnya (misal: memilih Kecamatan Abiansemal hanya akan memunculkan Desa-desa di dalam Abiansemal). Mekanisme ini bekerja secara dinamis memuat ulang (reload) opsi dan me-reset child filter secara otomatis, sehingga mencegah terjadinya kesalahan kombinasi pencarian tanpa memodifikasi business logic dari vendor Backpack.",
         },
       ],
     },

@@ -4,7 +4,7 @@ import { ReportState, getPointLabel } from "@/lib/report";
 
 const renderRichText = (text: string) => {
   if (!text) return { __html: "" };
-  let html = text
+  const html = text
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.*?)\*/g, "<em>$1</em>")
     .replace(/_(.*?)_/g, "<em>$1</em>");
@@ -32,6 +32,14 @@ const renderParagraphs = (text: string, isIndent: boolean = false) => {
 };
 
 export default function ReportPreview({ report }: { report: ReportState }) {
+  const kopLines = report.metadata.alamatInstansi
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const kopHeaderLines = kopLines.slice(0, 3);
+  const kopBodyLines = kopLines.slice(3);
+
   return (
     <div id="report-preview-content" className="flex flex-col gap-8 print:gap-0">
 
@@ -55,7 +63,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
           <div className="font-bold text-lg mb-16">
             <p className="mb-2">Oleh:</p>
             <p className="text-xl">{report.metadata.nama}</p>
-            <p className="font-normal italic">{report.metadata.posisi}</p>
+            <p className="font-bold italic">{report.metadata.posisi}</p>
           </div>
 
           <div className="font-bold text-xl">
@@ -67,7 +75,7 @@ export default function ReportPreview({ report }: { report: ReportState }) {
       </div>
 
       {/* CONTENT PAGES */}
-      <div className="w-[210mm] min-h-[297mm] mx-auto bg-white shadow-lg print:shadow-none print:w-full print:min-h-0 print:mx-0 p-[2.54cm] print:p-0 text-black font-sans leading-relaxed a4-boundary print:bg-none">
+      <div className="a4-boundary w-[210mm] min-h-[297mm] mx-auto bg-white shadow-lg print:shadow-none print:w-full print:min-h-0 print:mx-0 p-[2.54cm] print:p-0 text-black font-sans leading-relaxed print:bg-none">
 
         {/* HEADER KOP SURAT */}
         <div className="flex items-center justify-center mb-6 border-b-[6px] border-black pb-2 print:border-b-[6px] print:border-black gap-2">
@@ -75,14 +83,13 @@ export default function ReportPreview({ report }: { report: ReportState }) {
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVJhbrB5vVGVDnX0BDtsMByzrf05DyhXUOMe2bOeEUFQ&s=10" alt="Logo Instansi" className="w-full h-full object-contain" />
           </div>
           <div className="text-center flex-1 leading-none text-[11pt]">
-            <h1 className="font-bold uppercase text-[11pt]">PEMERINTAH {report.metadata.daerah}</h1>
-            <h2 className="font-bold uppercase text-[11pt]">{report.metadata.instansi}</h2>
+            {kopHeaderLines.map((line, idx) => (
+              <div key={idx} className="font-bold uppercase text-[11pt]">
+                {line}
+              </div>
+            ))}
             <div className="leading-none mt-1 text-[11pt]">
-              {report.metadata.alamatInstansi.split('\n').map((line, idx) => {
-                if (idx === 0) {
-                  return <div key={idx} className="font-bold uppercase text-[11pt]">{line}</div>;
-                }
-
+              {kopBodyLines.map((line, idx) => {
                 if (line.includes('www.')) {
                   const parts = line.split(/(www\.[^\s]+)/);
                   return (
@@ -126,24 +133,24 @@ export default function ReportPreview({ report }: { report: ReportState }) {
 
                 <div className="space-y-4 pl-2">
                   {section.items.map((item, index) => (
-                    <div key={item.id} className="flex flex-col mb-4 break-inside-avoid">
-                      <div className="flex gap-2">
-                        <span className="font-medium shrink-0 w-6">{getPointLabel(index)}</span>
-                        <div className="flex-1 text-justify">
-                          {renderParagraphs(item.text, false)}
+                        <div key={item.id} className="flex flex-col mb-4 break-inside-avoid">
+                          <div className="flex gap-2">
+                            <span className="font-medium shrink-0 w-6">{getPointLabel(index)}</span>
+                            <div className="flex-1 text-justify">
+                              {renderParagraphs(item.text, false)}
+                            </div>
+                          </div>
+                          {item.image && (
+                            <div className="mt-4 mb-2 ml-8 flex justify-center">
+                              <img
+                                src={item.image}
+                                alt="Lampiran"
+                                className="max-w-full print:max-w-[80%]"
+                                style={{ maxHeight: '350px', objectFit: 'contain' }}
+                              />
+                            </div>
+                          )}
                         </div>
-                      </div>
-                      {item.image && (
-                        <div className="mt-4 mb-2 ml-8 flex justify-center">
-                          <img
-                            src={item.image}
-                            alt="Lampiran"
-                            className="max-w-full print:max-w-[80%]"
-                            style={{ maxHeight: '350px', objectFit: 'contain' }}
-                          />
-                        </div>
-                      )}
-                    </div>
                   ))}
                 </div>
               </div>

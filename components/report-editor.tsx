@@ -287,7 +287,7 @@ export default function ReportEditor({
       ))}
       
       <div className="text-xs text-neutral-500 mt-8 pb-8 space-y-2 text-center px-4">
-        <p>Tips: Matikan opsi "Headers and Footers" pada dialog cetak browser Anda untuk hasil laporan formal yang bersih.</p>
+        <p>Tips: Matikan opsi &quot;Headers and Footers&quot; pada dialog cetak browser Anda untuk hasil laporan formal yang bersih.</p>
         <p>Tips Format: Gunakan <strong>**teks tebal**</strong> untuk bold dan <em>*teks miring*</em> atau <em>_teks miring_</em> untuk italic.</p>
         <p>Tips Spasi: Ketik <strong>---</strong> (3 strip) untuk memaksa ganti halaman (Page Break). Tekan <strong>Enter</strong> dua kali untuk memberi jarak baris kosong.</p>
       </div>
