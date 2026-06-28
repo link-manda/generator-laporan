@@ -145,8 +145,13 @@ export default function ReportPreview({ report }: { report: ReportState }) {
                               <img
                                 src={item.image}
                                 alt="Lampiran"
-                                className="max-w-full print:max-w-[80%]"
-                                style={{ maxHeight: '350px', objectFit: 'contain' }}
+                                className="max-w-full print:max-w-full"
+                                style={{ 
+                                  width: item.imageWidth || '100%',
+                                  height: item.imageHeight || 'auto',
+                                  maxHeight: item.imageHeight ? 'none' : '350px', 
+                                  objectFit: 'contain' 
+                                }}
                               />
                             </div>
                           )}

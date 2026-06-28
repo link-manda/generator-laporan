@@ -2,6 +2,8 @@ export type ReportItem = {
   id: string;
   text: string;
   image?: string; // object URL for local image
+  imageWidth?: string;
+  imageHeight?: string;
 };
 
 export type ReportSection = {

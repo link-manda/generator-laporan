@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SEEDED_REPORT, ReportState, ReportItem } from "@/lib/report";
 import ReportEditor from "./report-editor";
 import ReportPreview from "./report-preview";
+import { Button } from "./ui/button";
 
 export default function ReportBuilder() {
   const [report, setReport] = useState<ReportState>(SEEDED_REPORT);
@@ -83,6 +84,25 @@ export default function ReportBuilder() {
     }));
   };
 
+  const updateSectionItemImageSize = (sectionKey: string, itemId: string, width?: string, height?: string) => {
+    setReport((prev) => ({
+      ...prev,
+      sections: prev.sections.map((sec) =>
+        sec.key === sectionKey
+          ? {
+              ...sec,
+              items: sec.items.map((it) => {
+                if (it.id === itemId) {
+                  return { ...it, imageWidth: width, imageHeight: height };
+                }
+                return it;
+              }),
+            }
+          : sec
+      ),
+    }));
+  };
+
   const removeSectionItem = (sectionKey: string, itemId: string) => {
     setReport((prev) => ({
       ...prev,
@@ -112,10 +132,17 @@ export default function ReportBuilder() {
           addSectionItem={addSectionItem}
           updateSectionItem={updateSectionItem}
           updateSectionItemImage={updateSectionItemImage}
+          updateSectionItemImageSize={updateSectionItemImageSize}
           removeSectionItem={removeSectionItem}
         />
       </div>
-      <div className="lg:w-2/3 h-1/2 lg:h-full p-4 lg:p-8 overflow-y-auto bg-neutral-200 print:w-full print:bg-white print:p-0 print:overflow-visible">
+      <div className="lg:w-2/3 h-1/2 lg:h-full p-4 lg:p-8 overflow-y-auto bg-neutral-200 print:w-full print:bg-white print:p-0 print:overflow-visible relative">
+        <div className="sticky top-0 z-10 flex justify-end mb-4 no-print pointer-events-none">
+          <Button onClick={() => window.print()} variant="default" className="flex gap-2 items-center pointer-events-auto shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download / Cetak PDF
+          </Button>
+        </div>
         <ReportPreview report={report} />
       </div>
     </div>
