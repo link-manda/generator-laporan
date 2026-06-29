@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SEEDED_REPORT, ReportState, ReportItem } from "@/lib/report";
 import ReportEditor from "./report-editor";
 import ReportPreview from "./report-preview";
@@ -8,6 +8,25 @@ import { Button } from "./ui/button";
 
 export default function ReportBuilder() {
   const [report, setReport] = useState<ReportState>(SEEDED_REPORT);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("laporpro_data");
+    if (saved) {
+      try {
+        setReport(JSON.parse(saved));
+      } catch (e) {
+        console.error("Gagal memuat data laporan dari cache");
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("laporpro_data", JSON.stringify(report));
+    }
+  }, [report, isLoaded]);
 
   const updateMetadata = (key: keyof ReportState["metadata"], value: string) => {
     setReport((prev) => ({

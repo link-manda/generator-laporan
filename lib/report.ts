@@ -24,9 +24,13 @@ export type ReportMetadata = {
   tempatTanggal: string;
   penyusunJabatan: string;
   penyusunNama: string;
+  penyusunTTD?: string;
+  penyusunTTDWidth?: string;
   penyetujuJabatan: string;
   penyetujuNama: string;
   penyetujuNip: string;
+  penyetujuTTD?: string;
+  penyetujuTTDWidth?: string;
 };
 
 export type ReportState = {

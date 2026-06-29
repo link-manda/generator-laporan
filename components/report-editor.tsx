@@ -38,6 +38,16 @@ export default function ReportEditor({
   updateSectionItemImageSize,
   removeSectionItem,
 }: ReportEditorProps) {
+  const handleImageUpload = (file: File, callback: (base64: string) => void) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        callback(e.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="flex flex-col space-y-8 pb-12">
       <div className="-mx-6 -mt-6 p-6 mb-2 bg-gradient-to-r from-slate-800 to-slate-900 flex items-center gap-4 text-white shadow-md">
@@ -151,10 +161,42 @@ export default function ReportEditor({
               />
               <input
                 type="text" placeholder="Nama"
-                className="w-full border rounded-md p-2 text-sm"
+                className="w-full border rounded-md p-2 text-sm mb-2"
                 value={report.metadata.penyusunNama}
                 onChange={(e) => updateMetadata("penyusunNama", e.target.value)}
               />
+              <div className="border rounded-md p-2 bg-white">
+                <label className="text-xs font-medium text-neutral-500 mb-2 block">Upload TTD (Opsional)</label>
+                {report.metadata.penyusunTTD ? (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <img src={report.metadata.penyusunTTD} alt="TTD Penyusun" className="h-10 w-auto object-contain border bg-neutral-50 rounded" />
+                      <Button variant="outline" size="sm" onClick={() => updateMetadata("penyusunTTD", "")} className="text-red-600 h-8 px-2 text-xs">Hapus</Button>
+                    </div>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="text-[10px] text-neutral-500 shrink-0">Skala:</span>
+                      <input 
+                        type="range" min="10" max="100" step="5" 
+                        value={parseInt(report.metadata.penyusunTTDWidth || "100")} 
+                        onChange={(e) => updateMetadata("penyusunTTDWidth", `${e.target.value}%`)}
+                        className="w-full min-w-0 h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <input
+                    type="file" accept="image/*"
+                    className="text-xs w-full cursor-pointer file:cursor-pointer"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, (base64) => updateMetadata("penyusunTTD", base64));
+                      }
+                      e.target.value = '';
+                    }}
+                  />
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -173,10 +215,42 @@ export default function ReportEditor({
               />
               <input
                 type="text" placeholder="NIP"
-                className="w-full border rounded-md p-2 text-sm"
+                className="w-full border rounded-md p-2 text-sm mb-2"
                 value={report.metadata.penyetujuNip}
                 onChange={(e) => updateMetadata("penyetujuNip", e.target.value)}
               />
+              <div className="border rounded-md p-2 bg-white">
+                <label className="text-xs font-medium text-neutral-500 mb-2 block">Upload TTD (Opsional)</label>
+                {report.metadata.penyetujuTTD ? (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <img src={report.metadata.penyetujuTTD} alt="TTD Penyetuju" className="h-10 w-auto object-contain border bg-neutral-50 rounded" />
+                      <Button variant="outline" size="sm" onClick={() => updateMetadata("penyetujuTTD", "")} className="text-red-600 h-8 px-2 text-xs">Hapus</Button>
+                    </div>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="text-[10px] text-neutral-500 shrink-0">Skala:</span>
+                      <input 
+                        type="range" min="10" max="100" step="5" 
+                        value={parseInt(report.metadata.penyetujuTTDWidth || "100")} 
+                        onChange={(e) => updateMetadata("penyetujuTTDWidth", `${e.target.value}%`)}
+                        className="w-full min-w-0 h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <input
+                    type="file" accept="image/*"
+                    className="text-xs w-full cursor-pointer file:cursor-pointer"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, (base64) => updateMetadata("penyetujuTTD", base64));
+                      }
+                      e.target.value = '';
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -271,10 +345,8 @@ export default function ReportEditor({
                           onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) {
-                              const url = URL.createObjectURL(file);
-                              updateSectionItemImage(section.key, item.id, url);
+                              handleImageUpload(file, (base64) => updateSectionItemImage(section.key, item.id, base64));
                             }
-                            // Reset the input so the same file can be selected again
                             e.target.value = '';
                           }}
                         />

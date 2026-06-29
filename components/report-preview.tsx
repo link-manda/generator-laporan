@@ -172,7 +172,13 @@ export default function ReportPreview({ report }: { report: ReportState }) {
           <div className="flex justify-between px-8">
             <div className="text-center w-64 flex flex-col items-center">
               <p>Disusun Oleh,</p>
-              <p className="mb-24">{report.metadata.penyusunJabatan}</p>
+              <p className={report.metadata.penyusunTTD ? "mb-2" : "mb-24"}>{report.metadata.penyusunJabatan}</p>
+
+              {report.metadata.penyusunTTD && (
+                <div className="h-20 flex items-center justify-center my-2 w-full">
+                  <img src={report.metadata.penyusunTTD} alt="Tanda Tangan" style={{ width: report.metadata.penyusunTTDWidth || '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                </div>
+              )}
 
               <div className="inline-block">
                 <p className="font-bold underline leading-tight m-0 p-0 whitespace-nowrap">{report.metadata.penyusunNama}</p>
@@ -181,7 +187,13 @@ export default function ReportPreview({ report }: { report: ReportState }) {
 
             <div className="text-center w-64 flex flex-col items-center">
               <p>Disetujui Oleh,</p>
-              <p className="mb-24">{report.metadata.penyetujuJabatan}</p>
+              <p className={report.metadata.penyetujuTTD ? "mb-2" : "mb-24"}>{report.metadata.penyetujuJabatan}</p>
+
+              {report.metadata.penyetujuTTD && (
+                <div className="h-20 flex items-center justify-center my-2 w-full">
+                  <img src={report.metadata.penyetujuTTD} alt="Tanda Tangan" style={{ width: report.metadata.penyetujuTTDWidth || '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                </div>
+              )}
 
               <div className="inline-block">
                 <p className="font-bold underline leading-tight m-0 p-0 whitespace-nowrap">{report.metadata.penyetujuNama}</p>
